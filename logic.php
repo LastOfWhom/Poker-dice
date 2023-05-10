@@ -1,4 +1,4 @@
-pwd<?php
+<?php
 function gameloop($countBotTotal,$countPlayerTotal,$setCombination){ // зацикливание игры пока кто-то не выйграет
     do{
         $countPlayerTotal = rollDicesPlayer($countPlayerTotal, $setCombination);
@@ -6,11 +6,16 @@ function gameloop($countBotTotal,$countPlayerTotal,$setCombination){ // заци
         echo "У игрока {$countPlayerTotal} очков \n";
         echo "У бота {$countBotTotal} очков \n\n";
 
-        if($countPlayerTotal >= 70){
-            echo "Победил игрок со счетом - {$countPlayerTotal}";
+        if($countPlayerTotal >= 80 && $countBotTotal >= 80){
+            echo "Ничья\n";
             return;
-        }elseif ($countBotTotal >= 70){
-            echo "Победил бот со счетом - {$countBotTotal}";
+        }
+        elseif ($countBotTotal >= 80){
+            echo "Победил бот со счетом - {$countBotTotal}\n";
+            return;
+        }
+        elseif($countPlayerTotal >= 80){
+            echo "Победил игрок со счетом - {$countPlayerTotal}\n";
             return;
         }
     }while(true);
@@ -31,10 +36,12 @@ function rollDicesPlayer($countPlayerTotal, $setCombination){
             echo "Нет так нет. Понадеемся на удачу! \nКомбинация игрока -";
             return  makeChekCombination($valueDices, $countPlayerTotal, $setCombination);
         }
-        elseif($answerPlayer == 'y')
+        elseif($answerPlayer == 'y'){
             return reRollDices($valueDices, $countPlayerTotal, $setCombination);
-        else
+        }
+        else{
             echo "Введите корректный ответ из предложенного.\nВы хотите перебросить кубики? Ответ только y или n  \n";
+        }
     }while(true);
 }
 
@@ -77,8 +84,10 @@ function correctInput(){
             echo "Так не пойдет. Введи кооректное число \n";
             $answerPlayer = readline();
         }
-        else
+        else{
             return $answerPlayer;
+        }
+
     }while(true);
 }
 function reRollEachDice($valueDices, $answerPlayer){
@@ -140,7 +149,7 @@ function makeChekCombination($valueDices, $countTotal,$setCombination){
                     $countStreet++;
             }
             if($countStreet == 4){
-                echo "Это стрит";
+                echo "Это стрит\n";
                 return sumTotalPlayer($countTotal, $setCombination['street']);
             }
             else{
